@@ -1,0 +1,63 @@
+
+version: 2
+
+models:
+    - name: my_first_dbt_model
+      description: "A starter dbt model"
+      columns:
+          - name: id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                # - accepted_values:
+                    #values: [1, 2]
+                    #quote: false
+                    #ensures to test numbers 1 & 2 and not strings
+
+    - name: my_second_dbt_model
+      description: "A starter dbt model"
+      columns:
+          - name: id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+                - relationships:
+                    to: ref("my_first_dbt_model")
+                    field: id
+
+
+    - name: snowflake_customer_purchases
+      description: "This is the total purchases for each customer in the sample snowflake database"
+      columns:
+        - name: c_custkey
+          description: "This is the primary key for this table"
+          tests:
+              - unique
+              - not_null
+
+    - name: playing_with_tests
+      description: "This is a table being used to train in testing on dbt"
+      columns:
+        - name: c_custkey
+          description: "This is the primary key for this table"
+          tests:
+              - unique
+              - not_null
+
+        - name: c_mktsegment
+          description: "Column describing the market segments as strings"
+          tests:
+              - accepted_values:
+                  values: ["AUTOMOBILE", "MACHINERY", "HOUSEHOLD", "FURNITURE", "BUILDING"]
+
+
+    - name: cul_order_price
+      description: "This is the cumulative total orders for each customer in the sample snowflake database"
+      columns:
+        - name: cul_daily_amount
+          description: "This snowflake_culmulative_order_price"
+
+
+
+    - name: time
