@@ -5,16 +5,20 @@
     This will override configurations stated in dbt_project.yml
 
     Try changing "table" to "view" below
+
+    post_hook="grant select on {{this}} to role analyst" can put in config
 */
 {{ config(materialized="table", alias="first_model")}}
 
+
+
 with source_data as (
 
-    select 1 as id
+    select 1 as id, 'NJ' as state, '2020-01-01 00:00:00.000'::timestamp as updated_at
     union all
-    select null as id
-    union all   
-    select 3 as id
+    select null as id, 'TX' as state, '2020-01-01 00:00:00.000'::timestamp as updated_at
+    union all
+    select 3 as id, 'VT' as state, '2020-01-01 00:00:00.000'::timestamp as updated_at
 
 )
 

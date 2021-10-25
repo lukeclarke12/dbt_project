@@ -21,7 +21,7 @@ models:
             description: "The primary key for this table"
             tests:
                 - unique
-                
+
                 - relationships:
                     to: ref("my_first_dbt_model")
                     field: id
@@ -58,6 +58,17 @@ models:
         - name: cul_daily_amount
           description: "This snowflake_culmulative_order_price"
 
-
-
     - name: time
+
+sources:
+  - name: sample # name database
+    database: snowflake_sample_data # Tell dbt to look for the source in the snowflake_sample_database database
+    schema: tpch_sf1
+    tables:
+      - name: customer      #specify tables to reference as source tables in the database
+        columns:
+        - name: c_custkey
+          tests:
+            - unique
+            - not_null 
+      - name: orders
